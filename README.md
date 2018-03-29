@@ -1,5 +1,8 @@
 # cognito-jwt
 
+[![Build Status](https://travis-ci.org/xeedware-aws/cognito-jwt.svg?branch=master)](https://travis-ci.org/xeedware-aws/cognito-jwt)
+[![codecov](https://codecov.io/gh/xeedware-aws/cognito-jwt/branch/master/graph/badge.svg)](https://codecov.io/gh/xeedware-aws/cognito-jwt)
+
 Typescript friendly AWS Cognito AccessToken and IdToken classes.
 
 Nothing spectacular but convenient classes to encapsulate
