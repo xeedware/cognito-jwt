@@ -72,7 +72,7 @@ There are three types of claims:
   Custom claims created to be shared between parties that are neither
   _registered_ or _public_ claims.
   
-#### AccessToken
+### AccessToken
 
 The AccessToken contains registered claims as specified by the IETF
 for an access token: \
@@ -100,7 +100,7 @@ Claims are:
 * **sub** \
   Subject: A GUID that identifies the principle who is the subject of the JWT.
 
-#### CognitoAccessToken
+### CognitoAccessToken
 The CognitoAccessToken extends AccessToken containing public and private
 claims added to the registered claims available in the AccessToken.
 
@@ -123,7 +123,7 @@ Added claims are:
   The username of the authenticated AWS Cognito User Pool user.
 
 
-#### IdToken
+### IdToken
 The IdToken contains registered claims as specified by Open ID Connect
 for an id token: \
 http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
@@ -223,7 +223,7 @@ The claims are (descriptions from Open ID Connect specification):
   String from zoneinfo [zoneinfo] time zone database representing the End-User's time zone. 
   For example, Europe/Paris or America/Los_Angeles.
 
-#### CognitoIdToken
+### CognitoIdToken
 The CognitoIdToken extends IdToken containing public and private
 claims added to the registered claims available in the AccessToken.
 Note that some of the same claims can be found in an AccessToken.
