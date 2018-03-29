@@ -1,6 +1,6 @@
 {
   "name": "@xeedware/cognito-jwt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AWS Cognito AccessToken and IdToken classes. ",
   "directories": {
     "doc": "docs",
