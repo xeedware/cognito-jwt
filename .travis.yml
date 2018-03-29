@@ -1,0 +1,15 @@
+language: node_js
+
+node_js:
+  - stable
+
+install:
+  - npm install
+  - npm install codecov -g
+
+script:
+  - nyc npm test
+  - nyc report --reporter=text-lcov > coverage.lcov
+
+after_success:
+  - codecov
