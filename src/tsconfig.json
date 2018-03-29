@@ -1,0 +1,31 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es6",
+    "module": "commonjs",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+
+    /* "allowSyntheticDefaultImports": true, */
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "../dist",
+
+    /* Strict Type-Checking Options */
+    "noImplicitAny": true,
+
+    /* Additional Checks */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    /* Module Resolution Options */
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
+    /* Experimental Options */
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  }
+}
