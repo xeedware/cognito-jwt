@@ -162,4 +162,4 @@ typings/
 .~lock.*#
 
 ### Custom
-#dist/
+dist/

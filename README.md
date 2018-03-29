@@ -42,7 +42,7 @@ to access token claims as instance properties.
 
 Typescript:
 ```
-import {CognitoAccessToken, CognitoIdToken} from 'cognito-jwt';
+import {CognitoAccessToken, CognitoIdToken} from '@xeedware/cognito-jwt/dist';
 
 const cognitoAccessTokenString = '<access token string from Cognito>';
 const cognitoAccessToken = new CognitoAccessToken(cognitoAccessTokenString);
