@@ -110,11 +110,19 @@ Added claims are:
   The number of seconds from 1970-01-01T0:0:0Z as measured in UTC.
 * **client_id** \
   Client ID: The AWS Cognito User Pool Application Client ID the token was issued to.
+* **cognito_groups** \
+  Stored in the JwtPayload as `cognito:groups` property,
+  this array of strings list the groups to which the 
+  authenticated AWS Cognito User Pool user belongs.
+* **device_key** \
+  Key assigned to device that is being used by the authenticated user.
 * **email** \
   Email: Preferred email address of the authenticated user.
 * **email_verified** \
   Email Verified: A true or false value indicating if the user's
 	email address has been verified.
+* **event_id** \
+  Assigned event id (a UUID);
 * **scope** \
   String containing a space-separated list of scopes associated with this token.
 * **token_use** \
@@ -234,6 +242,10 @@ Added claims are:
 * **auth_time** \
   Authentication Time: Time when the authentication occurred.\
   The number of seconds from 1970-01-01T0:0:0Z  as measured in UTC.
+* **cognito_groups** \
+  Stored in the JwtPayload as `cognito:groups` property,
+  this array of strings list the groups to which the 
+  authenticated AWS Cognito User Pool user belongs.
 * **cognito_username** \
   Stored in the JwtPayload as `cognito:username` property,
   this is the username of the authenticated AWS Cognito User Pool user.
@@ -241,6 +253,8 @@ Added claims are:
   Expiration Time: The time on or after which the JWT _MUST NOT_ be accepted
   for processing.\
   The number of seconds from 1970-01-01T0:0:0Z as measured in UTC.
+* **event_id** \
+  Assigned event id (a UUID);
 * **iss** \
   Issuer: Identifies the principle who issued the JWT.
 * **iat** \

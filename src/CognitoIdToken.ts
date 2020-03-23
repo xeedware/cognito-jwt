@@ -7,8 +7,10 @@ export interface CognitoIdTokenJwtPayload extends IdTokenJwtPayload {
     // Additional attributes set in Cognito IdentityId
     aud?: string;    // Audience
     auth_time?: number;
+    'cognito:groups'?: string[];
     'cognito:username'?: string;
     exp?: number;   // Expiration Time (number of seconds since the Epoch)
+    event_id?: string;
     iss?: string;   // Issuer
     iat?: number;   // Issued At (number of seconds since the Epoch)
     scope?: string;
@@ -45,11 +47,27 @@ export class CognitoIdToken extends IdToken {
     }
 
     /**
+     * Cognito user pool groups to which authenticated user belongs.
+     * @returns {string[]}
+     */
+    get cognito_groups(): string[] {
+        return (<CognitoIdTokenJwtPayload>this.payload)['cognito:groups'];
+    }
+
+    /**
      * Cognito user pool username
      * @returns {string}
      */
     get cognito_username(): string {
         return (<CognitoIdTokenJwtPayload>this.payload)['cognito:username'];
+    }
+
+    /**
+     * Event ID
+     * @returns {string}
+     */
+    get event_id(): string {
+        return (<CognitoIdTokenJwtPayload>this.payload).event_id;
     }
 
     /**
