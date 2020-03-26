@@ -1,10 +1,11 @@
 // https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32
 
-import {AccessToken, AccessTokenJwtPayload} from './AccessToken';
-import {CognitoIdTokenJwtPayload} from './CognitoIdToken';
+import {AccessToken, AccessTokenPayload} from './AccessToken';
+import {CognitoIdTokenPayload} from './CognitoIdToken';
+import {VerifyOptions} from 'jsonwebtoken';
 
 // tslint:disable:max-line-length
-export interface CognitoAccessTokenJwtPayload extends AccessTokenJwtPayload {
+export interface CognitoAccessTokenPayload extends AccessTokenPayload {
 
     // Attributes added by Cognito
     auth_time?: number;
@@ -26,9 +27,23 @@ export class CognitoAccessToken extends AccessToken {
     /**
      * Constructs a new CognitoAccessToken object
      * @param {string} token The JWT token.
+     * @param {string} [pem]
+     * @param {VerifyOptions} [options]
      */
-    constructor(token: string) {
-        super(token);
+    constructor(
+        token: string,
+        protected pem?: string,
+        options?: VerifyOptions,
+    ) {
+        super(token, pem, options);
+    }
+
+    /**
+     * Get the JWT payload
+     * @returns {CognitoAccessTokenPayload}
+     */
+    getCognitoAccessTokenPayload(): CognitoAccessTokenPayload {
+        return super.getJwtPayload<CognitoAccessTokenPayload>();
     }
 
     /**
@@ -36,14 +51,14 @@ export class CognitoAccessToken extends AccessToken {
      * The number of seconds from 1970-01-01T0:0:0Z as measured in UTC.
      */
     get auth_time(): number {
-        return (<CognitoAccessTokenJwtPayload>this.payload).auth_time;
+        return this.getCognitoAccessTokenPayload().auth_time;
     }
 
     /**
      * Client ID: The AWS Cognito User Pool Application Client ID the token was issued to.
      */
     get client_id(): string {
-        return (<CognitoAccessTokenJwtPayload>this.payload).client_id;
+        return this.getCognitoAccessTokenPayload().client_id;
     }
 
     /**
@@ -51,21 +66,21 @@ export class CognitoAccessToken extends AccessToken {
      * @returns {string[]}
      */
     get cognito_groups(): string[] {
-        return (<CognitoIdTokenJwtPayload>this.payload)['cognito:groups'];
+        return (<CognitoIdTokenPayload>super.getJwtPayload<CognitoAccessTokenPayload>())['cognito:groups'];
     }
 
     /**
      * Device Key: Key assigned to device being used by the authenticated user.
      */
     get device_key(): string {
-        return (<CognitoAccessTokenJwtPayload>this.payload).device_key;
+        return this.getCognitoAccessTokenPayload().device_key;
     }
 
     /**
      * Email: Preferred email address of the authenticated user.
      */
     get email(): string {
-        return (<CognitoAccessTokenJwtPayload>this.payload).email;
+        return this.getCognitoAccessTokenPayload().email;
     }
 
     /**
@@ -73,7 +88,7 @@ export class CognitoAccessToken extends AccessToken {
      * email address has been verified.
      */
     get email_verified(): boolean {
-        return (<CognitoAccessTokenJwtPayload>this.payload).email_verified;
+        return this.getCognitoAccessTokenPayload().email_verified;
     }
 
     /**
@@ -81,28 +96,28 @@ export class CognitoAccessToken extends AccessToken {
      * @returns {string}
      */
     get event_id(): string {
-        return (<CognitoIdTokenJwtPayload>this.payload).event_id;
+        return (<CognitoIdTokenPayload>super.getJwtPayload<CognitoAccessTokenPayload>()).event_id;
     }
 
     /**
      * String containing a space-separated list of scopes associated with this token.
      */
     get scope(): string {
-        return (<CognitoAccessTokenJwtPayload>this.payload).scope;
+        return this.getCognitoAccessTokenPayload().scope;
     }
 
     /**
      * Token Use: 'access' or 'id'.
      */
     get tokenUse(): string {
-        return (<CognitoAccessTokenJwtPayload>this.payload).token_use;
+        return this.getCognitoAccessTokenPayload().token_use;
     }
 
     /**
      * The username of the authenticated AWS Cognito User Pool user.
      */
     get username(): string {
-        return (<CognitoAccessTokenJwtPayload>this.payload).username;
+        return this.getCognitoAccessTokenPayload().username;
     }
 
 }

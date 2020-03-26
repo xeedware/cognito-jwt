@@ -1,8 +1,9 @@
 // Open ID Connect specification: http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
-const JwtDecode = require('jwt-decode');
+import {JsonWebToken} from './JsonWebToken';
+import {VerifyOptions} from 'jsonwebtoken';
 
 // tslint:disable:max-line-length
-export interface IdTokenJwtPayload {
+export interface IdTokenPayload {
     // Attributes defined by OpenID
     address?: object; // End-User's preferred postal address. The value of the address member is a JSON [RFC4627] structure containing some or all of the members defined in Section 5.1.1.
     birthdate?: string; // End-User's birthday, represented as an ISO 8601:2004 [ISO8601‑2004] YYYY-MM-DD format. The year MAY be 0000, indicating that it is omitted. To represent only the year, YYYY format is allowed. Note that depending on the underlying platform's date related function, providing just year can result in varying month and day, so the implementers need to take this factor into account to correctly process the dates.
@@ -28,42 +29,28 @@ export interface IdTokenJwtPayload {
 }
 
 /** @class */
-export class IdToken {
-
-    protected jwtToken: string;
-    protected payload: IdTokenJwtPayload;
-
-    /**
-     * @returns {object} the token's payload.
-     */
-    private decodePayload() {
-        return JwtDecode(this.jwtToken);
-    }
+export class IdToken extends JsonWebToken {
 
     /**
      * Constructs a new CognitoJwtToken object
      * @param {string} token The JWT token.
+     * @param {string} [pem]
+     * @param {VerifyOptions} [options]
      */
-    constructor(token: string) {
-        // Assign object
-        this.jwtToken = token || '';
-        this.payload = (!token || token === '') ? {} : this.decodePayload();
-    }
-
-    /**
-     * Get the raw JWT string.
-     * @returns {string} the record's token.
-     */
-    getJwtToken() {
-        return this.jwtToken;
+    constructor(
+        token: string,
+        protected pem?: string,
+        options?: VerifyOptions,
+    ) {
+        super(token, pem, options);
     }
 
     /**
      * Get the JWT payload
-     * @returns {Object}
+     * @returns {IdTokenPayload}
      */
-    getPayload(): object {
-        return this.payload;
+    getIdTokenPayload(): IdTokenPayload {
+        return super.getJwtPayload<IdTokenPayload>();
     }
 
     /**
@@ -71,7 +58,7 @@ export class IdToken {
      * @returns {Object}
      */
     get address(): object {
-        return this.payload.address;
+        return this.getIdTokenPayload().address;
     }
 
     /**
@@ -79,7 +66,7 @@ export class IdToken {
      * @returns {string}
      */
     get birthdate(): string {
-        return this.payload.birthdate;
+        return this.getIdTokenPayload().birthdate;
     }
 
     /**
@@ -87,7 +74,7 @@ export class IdToken {
      * @returns {string}
      */
     get email(): string {
-        return this.payload.email;
+        return this.getIdTokenPayload().email;
     }
 
     /**
@@ -95,7 +82,7 @@ export class IdToken {
      * @returns {boolean}
      */
     get email_verified(): boolean {
-        return this.payload.email_verified;
+        return this.getIdTokenPayload().email_verified;
     }
 
     /**
@@ -103,7 +90,7 @@ export class IdToken {
      * @returns {string}
      */
     get family_name(): string {
-        return this.payload.family_name;
+        return this.getIdTokenPayload().family_name;
     }
 
     /**
@@ -111,7 +98,7 @@ export class IdToken {
      * @returns {string}
      */
     get gender(): string {
-        return this.payload.gender;
+        return this.getIdTokenPayload().gender;
     }
 
     /**
@@ -119,7 +106,7 @@ export class IdToken {
      * @returns {string}
      */
     get given_name(): string {
-        return this.payload.given_name;
+        return this.getIdTokenPayload().given_name;
     }
 
     /**
@@ -127,7 +114,7 @@ export class IdToken {
      * @returns {string}
      */
     get locale(): string {
-        return this.payload.locale;
+        return this.getIdTokenPayload().locale;
     }
 
     /**
@@ -135,7 +122,7 @@ export class IdToken {
      * @returns {string}
      */
     get middle_name(): string {
-        return this.payload.middle_name;
+        return this.getIdTokenPayload().middle_name;
     }
 
     /**
@@ -143,7 +130,7 @@ export class IdToken {
      * @returns {string}
      */
     get name(): string {
-        return this.payload.name;
+        return this.getIdTokenPayload().name;
     }
 
     /**
@@ -151,7 +138,7 @@ export class IdToken {
      * @returns {string}
      */
     get nickname(): string {
-        return this.payload.nickname;
+        return this.getIdTokenPayload().nickname;
     }
 
     /**
@@ -159,7 +146,7 @@ export class IdToken {
      * @returns {string}
      */
     get phone_number(): string {
-        return this.payload.phone_number;
+        return this.getIdTokenPayload().phone_number;
     }
 
     /**
@@ -167,7 +154,7 @@ export class IdToken {
      * @returns {boolean}
      */
     get phone_number_verified(): boolean {
-        return this.payload.phone_number_verified;
+        return this.getIdTokenPayload().phone_number_verified;
     }
 
     /**
@@ -175,7 +162,7 @@ export class IdToken {
      * @returns {string}
      */
     get picture(): string {
-        return this.payload.picture;
+        return this.getIdTokenPayload().picture;
     }
 
     /**
@@ -183,27 +170,27 @@ export class IdToken {
      * @returns {string}
      */
     get preferred_username(): string {
-        return this.payload.preferred_username;
+        return this.getIdTokenPayload().preferred_username;
     }
 
     get profile(): string {
-        return this.payload.profile;
+        return this.getIdTokenPayload().profile;
     }
 
     get sub(): string {
-        return this.payload.sub;
+        return this.getIdTokenPayload().sub;
     }
 
     get updated_at(): number {
-        return this.payload.updated_at;
+        return this.getIdTokenPayload().updated_at;
     }
 
     get website(): string {
-        return this.payload.website;
+        return this.getIdTokenPayload().website;
     }
 
     get zoneinfo(): string {
-        return this.payload.zoneinfo;
+        return this.getIdTokenPayload().zoneinfo;
     }
 
 }

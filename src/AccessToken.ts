@@ -1,8 +1,9 @@
 // https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32
 
-const JwtDecode = require('jwt-decode');
+import {JsonWebToken} from './JsonWebToken';
+import {VerifyOptions} from 'jsonwebtoken';
 
-export interface AccessTokenJwtPayload {
+export interface AccessTokenPayload {
 
     // Attributes defined by IETF
     aud?: string;    // Audience
@@ -16,41 +17,29 @@ export interface AccessTokenJwtPayload {
 }
 
 /** @class */
-export class AccessToken {
+export class AccessToken extends JsonWebToken {
 
-    protected jwtToken: string;
-    protected payload: AccessTokenJwtPayload;
-
-    /**
-     * @returns {object} the token's payload.
-     */
-    private decodePayload(): object {
-        return JwtDecode(this.jwtToken);
-    }
 
     /**
      * Constructs a new CognitoJwtToken object
-     * @param {string} token The JWT token.
+     * @param token The JWT token.
+     * @param {string} [pem]
+     * @param {VerifyOptions} [options]
      */
-    constructor(token: string) {
-        // Assign object
-        this.jwtToken = token || '';
-        this.payload = (!token || token === '') ? {} : this.decodePayload();
-    }
-
-    /**
-     * @returns {string} the record's token.
-     */
-    getJwtToken(): string {
-        return this.jwtToken;
+    constructor(
+        token: string,
+        pem?: string,
+        options?: VerifyOptions,
+    ) {
+        super(token, pem, options);
     }
 
     /**
      * Get the JWT payload
-     * @returns {Object}
+     * @returns {AccessTokenPayload}
      */
-    getPayload(): object {
-        return this.payload;
+    getAccessTokenPayload(): AccessTokenPayload {
+        return super.getJwtPayload<AccessTokenPayload>();
     }
 
     /**
@@ -58,7 +47,7 @@ export class AccessToken {
      * @returns {string}
      */
     get iss(): string {
-        return this.payload.iss;
+        return this.getAccessTokenPayload().iss;
     }
 
     /**
@@ -66,7 +55,7 @@ export class AccessToken {
      * @returns {string}
      */
     get sub(): string {
-        return this.payload.sub;
+        return this.getAccessTokenPayload().sub;
     }
 
     /**
@@ -74,7 +63,7 @@ export class AccessToken {
      * @returns {string}
      */
     get aud(): string {
-        return this.payload.aud;
+        return this.getAccessTokenPayload().aud;
     }
 
     /**
@@ -82,7 +71,7 @@ export class AccessToken {
      * @returns {number}
      */
     get exp(): number {
-        return this.payload.exp;
+        return this.getAccessTokenPayload().exp;
     }
 
     /**
@@ -90,7 +79,7 @@ export class AccessToken {
      * @returns {number}
      */
     get nbf(): number {
-        return this.payload.nbf;
+        return this.getAccessTokenPayload().nbf;
     }
 
     /**
@@ -98,7 +87,7 @@ export class AccessToken {
      * @returns {number}
      */
     get iat(): number {
-        return this.payload.iat;
+        return this.getAccessTokenPayload().iat;
     }
 
     /**
@@ -106,7 +95,7 @@ export class AccessToken {
      * @returns {string}
      */
     get jti(): string {
-        return this.payload.jti;
+        return this.getAccessTokenPayload().jti;
     }
 
 }

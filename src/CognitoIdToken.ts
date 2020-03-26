@@ -1,9 +1,10 @@
 // Open ID Connect specification: http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
 
 // tslint:disable:max-line-length
-import {IdToken, IdTokenJwtPayload} from './IdToken';
+import {IdToken, IdTokenPayload} from './IdToken';
+import {VerifyOptions} from 'jsonwebtoken';
 
-export interface CognitoIdTokenJwtPayload extends IdTokenJwtPayload {
+export interface CognitoIdTokenPayload extends IdTokenPayload {
     // Additional attributes set in Cognito IdentityId
     aud?: string;    // Audience
     auth_time?: number;
@@ -24,18 +25,31 @@ export class CognitoIdToken extends IdToken {
     /**
      * Constructs a new CognitoJwtToken object
      * @param {string} token The JWT token.
+     * @param {string} [pem]
+     * @param {VerifyOptions} [options]
      */
-    constructor(token: string) {
-        super(token);
+    constructor(
+        token: string,
+        protected pem?: string,
+        options?: VerifyOptions,
+    ) {
+        super(token, pem, options);
     }
 
+    /**
+     * Get the JWT payload
+     * @returns {CognitoIdTokenPayload}
+     */
+    getCognitoIdTokenPayload(): CognitoIdTokenPayload {
+        return super.getJwtPayload<CognitoIdTokenPayload>();
+    }
 
     /**
      * Audience
      * @returns {string}
      */
     get aud(): string {
-        return (<CognitoIdTokenJwtPayload>this.payload).aud;
+        return this.getCognitoIdTokenPayload().aud;
     }
 
     /**
@@ -43,7 +57,7 @@ export class CognitoIdToken extends IdToken {
      * @returns {number}
      */
     get auth_time(): number {
-        return (<CognitoIdTokenJwtPayload>this.payload).auth_time;
+        return this.getCognitoIdTokenPayload().auth_time;
     }
 
     /**
@@ -51,7 +65,7 @@ export class CognitoIdToken extends IdToken {
      * @returns {string[]}
      */
     get cognito_groups(): string[] {
-        return (<CognitoIdTokenJwtPayload>this.payload)['cognito:groups'];
+        return this.getCognitoIdTokenPayload()['cognito:groups'];
     }
 
     /**
@@ -59,7 +73,7 @@ export class CognitoIdToken extends IdToken {
      * @returns {string}
      */
     get cognito_username(): string {
-        return (<CognitoIdTokenJwtPayload>this.payload)['cognito:username'];
+        return this.getCognitoIdTokenPayload()['cognito:username'];
     }
 
     /**
@@ -67,7 +81,7 @@ export class CognitoIdToken extends IdToken {
      * @returns {string}
      */
     get event_id(): string {
-        return (<CognitoIdTokenJwtPayload>this.payload).event_id;
+        return this.getCognitoIdTokenPayload().event_id;
     }
 
     /**
@@ -75,7 +89,7 @@ export class CognitoIdToken extends IdToken {
      * @returns {number}
      */
     get exp(): number {
-        return (<CognitoIdTokenJwtPayload>this.payload).exp;
+        return this.getCognitoIdTokenPayload().exp;
     }
 
     /**
@@ -83,7 +97,7 @@ export class CognitoIdToken extends IdToken {
      * @returns {string}
      */
     get iss(): string {
-        return (<CognitoIdTokenJwtPayload>this.payload).iss;
+        return this.getCognitoIdTokenPayload().iss;
     }
 
     /**
@@ -91,7 +105,7 @@ export class CognitoIdToken extends IdToken {
      * @returns {number}
      */
     get iat(): number {
-        return (<CognitoIdTokenJwtPayload>this.payload).iat;
+        return this.getCognitoIdTokenPayload().iat;
     }
 
     /**
@@ -99,7 +113,7 @@ export class CognitoIdToken extends IdToken {
      * @returns {string}
      */
     get scope(): string {
-        return (<CognitoIdTokenJwtPayload>this.payload).scope;
+        return this.getCognitoIdTokenPayload().scope;
     }
 
     /**
@@ -107,7 +121,7 @@ export class CognitoIdToken extends IdToken {
      * @returns {string}
      */
     get tokenUse(): string {
-        return (<CognitoIdTokenJwtPayload>this.payload).token_use;
+        return this.getCognitoIdTokenPayload().token_use;
     }
 
 }

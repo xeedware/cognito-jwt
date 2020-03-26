@@ -8,6 +8,20 @@ Typescript friendly AWS Cognito AccessToken and IdToken classes.
 Nothing spectacular but convenient classes to encapsulate
 AWS Cognito's ID and access tokens; classes we found useful in various projects.
 
+*Version 1.2.0:*
+  - Replaces dependency on **jwt-decode** with **jsonwebtoken** for token validation.
+    Validation is triggered by passing a PEM formatted string containing
+    the JWT generator's JSON Web Key in the class constructor.
+  - Adds options to class constructors, typically for testing (e.g., `ignoreExpiration`).
+  - Supplements getPayload() method with added methods specific
+    to the token type: getIdTokenPayload(), getAccessTokenPayload(),
+    get CognitoIdTokenPayload(), getCognitoAccessTokenPayload().
+  - Adds method getPropertyValue(propertyName: string).
+
+*Version 1.1.0:*
+  - `cognito_groups`, `device_key` and `event_id` properties added to CognitoAccessToken.
+  - `cognito_groups` and `event_id` properties added to CognitoIdToken.
+
 ## Overview
 
 This cognito-jwt package provides four convenience classes to access
@@ -31,10 +45,12 @@ token claims:
 
 ## Install
 ```
-$ npm install @xeedware/cognito-jwt --save-dev
+$ npm install @xeedware/cognito-jwt
 ```
 
 ## Usage
+
+### Without Token Verification
 
 Simply create an instance of CognitoAccessToken and/or
 CognitoAccessToken with an access or id jwt string respectively
@@ -54,6 +70,98 @@ const cognitoIdToken = new CognitoIdToken(cognitoIdTokenString);
 console.log(cognitoIdToken.exp);
 console.log(cognitoIdToken.email);
 
+```
+
+### With Token Verification
+
+If you are using this package for server-side token processing you'll definitely
+want to verify the JWT against your server-side JSON Web Key (JWT).
+
+If the access and id tokens are the result of Cognito
+User Pool authentication, obtain the User Pool's JSON Web Keys from\
+`https://cognito-idp.{region}.amazonaws.com/{userPoolId}/.well-known/jwks.json`.\
+A list of two JSON Web Keys should result, the first used by the User Pool to generate id tokens
+and the second for access tokens.\
+For example:
+
+```
+{
+  "keys": [{
+    "kid": "1234example=",
+    "alg": "RS256",
+    "kty": "RSA",
+    "e": "AQAB",
+    "n": "1234567890",
+    "use": "sig"
+  }, {
+    "kid": "5678example=",
+    "alg": "RS256",
+    "kty": "RSA",
+    "e": "AQAB",
+    "n": "987654321",
+    "use": "sig"
+  }]
+}
+```
+See https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html.
+
+Once converted to PEM format, is passed as the second argument to the CognitoIdToken or CognitoAccessToken constructor.
+
+  Use a tool/library to convert the JWK to PEM.\
+  For example using the `jwk-to-pem` NPM package:
+  ```
+  const jwkToPem = require('jwk-to-pem');
+
+  const pem = jwkToPem({
+    "kid": "1234example=",
+    "alg": "RS256",
+    "kty": "RSA",
+    "e": "AQAB",
+    "n": "1234567890",
+    "use": "sig"
+  });
+
+  let cognitoIdToken: CognitoIdToken;
+  try {
+    cognitoIdToken = new CognitoIdToken(jwtString, pem);
+  } catch (e) {
+    console.log(e);
+  }
+  ```
+On failed verification, an Error will be thrown.
+
+### Options
+
+Class constructors have an optional 3rd parameter: `options: VerifyOptions`.
+
+`Verify Options` is from the **jsonwebtoken** NPM package:
+```
+export interface VerifyOptions {
+    algorithms?: Algorithm[];
+    audience?: string | RegExp | Array<string | RegExp>;
+    clockTimestamp?: number;
+    clockTolerance?: number;
+    complete?: boolean;
+    issuer?: string | string[];
+    ignoreExpiration?: boolean;
+    ignoreNotBefore?: boolean;
+    jwtid?: string;
+    nonce?: string;
+    subject?: string;
+    /**
+     * @deprecated
+     * Max age of token
+     */
+    maxAge?: string;
+}
+```
+and is typically used for testing purposes.\
+For example:
+```
+const options: VerifyOptions = {
+    ignoreExpiration: true,
+}
+const cognitoIdToken = new CognitoIdToken(jwtString, pem, options);
 ```
 
 ## Claims
