@@ -41,6 +41,8 @@ describe('CognitoAccessToken class', () => {
                 expect(JSON.stringify(iut.getCognitoAccessTokenPayload())).equal(JSON.stringify(expectedCognitoAccessTokenPayload));
                 expect(iut.getPropertyValue('sub')).equal(expectedCognitoAccessTokenPayload.sub);
                 expect(iut.getPropertyValue('bogus')).to.be.undefined;
+                // Deprecated methods
+                expect(iut.tokenUse).equal(expectedCognitoAccessTokenPayload.token_use);
                 // CognitoAccessToken added attributes
                 expect(iut.auth_time).equal(expectedCognitoAccessTokenPayload.auth_time);
                 expect(iut.client_id).equal(expectedCognitoAccessTokenPayload.client_id);
@@ -108,6 +110,8 @@ describe('CognitoAccessToken class', () => {
                 expect(JSON.stringify(iut.getCognitoAccessTokenPayload())).equal(JSON.stringify(expectedCognitoAccessTokenPayload));
                 expect(iut.getPropertyValue('sub')).equal(expectedCognitoAccessTokenPayload.sub);
                 expect(iut.getPropertyValue('bogus')).to.be.undefined;
+                // Deprecated methods
+                expect(iut.tokenUse).equal(expectedCognitoAccessTokenPayload.token_use);
                 // CognitoAccessToken added attributes
                 expect(iut.auth_time).equal(expectedCognitoAccessTokenPayload.auth_time);
                 expect(iut.client_id).equal(expectedCognitoAccessTokenPayload.client_id);
@@ -117,7 +121,7 @@ describe('CognitoAccessToken class', () => {
                 expect(iut.email_verified).equal(expectedCognitoAccessTokenPayload.email_verified);
                 expect(iut.event_id).equal(expectedCognitoAccessTokenPayload.event_id);
                 expect(iut.scope).equal(expectedCognitoAccessTokenPayload.scope);
-                expect(iut.tokenUse).equal(expectedCognitoAccessTokenPayload.token_use);
+                expect(iut.token_use).equal(expectedCognitoAccessTokenPayload.token_use);
                 expect(iut.username).equal(expectedCognitoAccessTokenPayload.username);
                 // IETF attributes
                 expect(iut.aud).equal(expectedCognitoAccessTokenPayload.aud);
@@ -163,6 +167,8 @@ describe('CognitoAccessToken class', () => {
                     expect(JSON.stringify(iut.getCognitoAccessTokenPayload())).equal(JSON.stringify(expectedCognitoAccessTokenPayload));
                     expect(iut.getPropertyValue('sub')).equal(expectedCognitoAccessTokenPayload.sub);
                     expect(iut.getPropertyValue('bogus')).to.be.undefined;
+                    // Deprecated methods
+                    expect(iut.tokenUse).equal(expectedCognitoAccessTokenPayload.token_use);
                     // CognitoAccessToken added attributes
                     expect(iut.auth_time).equal(expectedCognitoAccessTokenPayload.auth_time);
                     expect(iut.client_id).equal(expectedCognitoAccessTokenPayload.client_id);
@@ -172,7 +178,7 @@ describe('CognitoAccessToken class', () => {
                     expect(iut.email_verified).equal(expectedCognitoAccessTokenPayload.email_verified);
                     expect(iut.event_id).equal(expectedCognitoAccessTokenPayload.event_id);
                     expect(iut.scope).equal(expectedCognitoAccessTokenPayload.scope);
-                    expect(iut.tokenUse).equal(expectedCognitoAccessTokenPayload.token_use);
+                    expect(iut.token_use).equal(expectedCognitoAccessTokenPayload.token_use);
                     expect(iut.username).equal(expectedCognitoAccessTokenPayload.username);
                     // IETF attributes
                     expect(iut.aud).equal(expectedCognitoAccessTokenPayload.aud);
@@ -221,6 +227,8 @@ describe('CognitoAccessToken class', () => {
                 expect(JSON.stringify(iut.getCognitoAccessTokenPayload())).equal(JSON.stringify(expectedCognitoAccessTokenPayload));
                 expect(iut.getPropertyValue('sub')).equal(expectedCognitoAccessTokenPayload.sub);
                 expect(iut.getPropertyValue('bogus')).to.be.undefined;
+                // Deprecated methods
+                expect(iut.tokenUse).equal(expectedCognitoAccessTokenPayload.token_use);
                 // CognitoAccessToken added attributes
                 expect(iut.auth_time).equal(expectedCognitoAccessTokenPayload.auth_time);
                 expect(iut.client_id).equal(expectedCognitoAccessTokenPayload.client_id);
@@ -231,7 +239,7 @@ describe('CognitoAccessToken class', () => {
                 expect(iut.email_verified).equal(expectedCognitoAccessTokenPayload.email_verified);
                 expect(iut.event_id).equal(expectedCognitoAccessTokenPayload.event_id);
                 expect(iut.scope).equal(expectedCognitoAccessTokenPayload.scope);
-                expect(iut.tokenUse).equal(expectedCognitoAccessTokenPayload.token_use);
+                expect(iut.token_use).equal(expectedCognitoAccessTokenPayload.token_use);
                 expect(iut.username).equal(expectedCognitoAccessTokenPayload.username);
                 // IETF attributes
                 expect(iut.aud).equal(expectedCognitoAccessTokenPayload.aud);
@@ -286,7 +294,7 @@ describe('CognitoAccessToken class', () => {
                     expect(iut.email_verified).equal(expectedCognitoAccessTokenPayload.email_verified);
                     expect(iut.event_id).equal(expectedCognitoAccessTokenPayload.event_id);
                     expect(iut.scope).equal(expectedCognitoAccessTokenPayload.scope);
-                    expect(iut.tokenUse).equal(expectedCognitoAccessTokenPayload.token_use);
+                    expect(iut.token_use).equal(expectedCognitoAccessTokenPayload.token_use);
                     expect(iut.username).equal(expectedCognitoAccessTokenPayload.username);
                     // IETF attributes
                     expect(iut.aud).equal(expectedCognitoAccessTokenPayload.aud);

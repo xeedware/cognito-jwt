@@ -118,9 +118,22 @@ export class CognitoIdToken extends IdToken {
 
     /**
      * Intended token use.
+     *
+     * @deprecated since version 1.2.0.
+     *  Will be deleted in version 2.0.0.
+     *  Use token_use instead.
+     *
      * @returns {string}
      */
     get tokenUse(): string {
+        return this.getCognitoIdTokenPayload().token_use;
+    }
+
+    /**
+     * Intended token use.
+     * @returns {string}
+     */
+    get token_use(): string {
         return this.getCognitoIdTokenPayload().token_use;
     }
 

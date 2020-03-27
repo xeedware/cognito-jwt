@@ -8,40 +8,44 @@ Typescript friendly AWS Cognito AccessToken and IdToken classes.
 Nothing spectacular but convenient classes to encapsulate
 AWS Cognito's ID and access tokens; classes we found useful in various projects.
 
-*Version 1.2.0:*
+## Overview
+
+This **cognito-jwt** package provides four convenience classes to access
+token claims:
+* **`AccessToken`** \
+  Provides access to registered claims as specified by the IETF
+  for an access token: \
+  https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32
+* **`IdToken`** \
+  Provides access to registered claims as specified by Open ID Connect
+  for an id token: \
+  http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+* **`CognitoAccessToken`** \
+  An extension of the AccessToken class that provides access to
+  the registered claims found in AccessToken 
+  and public/private claims added by Cognito.
+* **`CognitoIdToken`** \
+  An extension of the IdToken class that provides access to
+  the registered claims found in IdToken 
+  and public/private claims added by Cognito.
+
+## Versions
+
+*Version 1.2:*
   - Replaces dependency on **jwt-decode** with **jsonwebtoken** for token validation.
     Validation is triggered by passing a PEM formatted string containing
     the JWT generator's JSON Web Key in the class constructor.
   - Adds options to class constructors, typically for testing (e.g., `ignoreExpiration`).
-  - Supplements getPayload() method with added methods specific
-    to the token type: getIdTokenPayload(), getAccessTokenPayload(),
-    get CognitoIdTokenPayload(), getCognitoAccessTokenPayload().
-  - Adds method getPropertyValue(propertyName: string).
+  - Supplements `getPayload()` method with added methods specific
+    to the token type: `getIdTokenPayload()`, `getAccessTokenPayload()`,
+    `getCognitoIdTokenPayload()`, `getCognitoAccessTokenPayload()`.
+  - Adds method `getPropertyValue(propertyName: string)`.
+  - Adds `token_use` getter to `CognitoAccessToken` and `CognitoIdToken` classes.
+  - Deprecated `token_use` getter to `CognitoAccessToken` and `CognitoIdToken` classes.
 
-*Version 1.1.0:*
+*Version 1.1:*
   - `cognito_groups`, `device_key` and `event_id` properties added to CognitoAccessToken.
   - `cognito_groups` and `event_id` properties added to CognitoIdToken.
-
-## Overview
-
-This cognito-jwt package provides four convenience classes to access
-token claims:
-* **AccessToken** \
-  Provides access to registered claims as specified by the IETF
-  for an access token: \
-  https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32
-* **IdToken** \
-  Provides access to registered claims as specified by Open ID Connect
-  for an id token: \
-  http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
-* **CognitoAccessToken** \
-  An extension of the AccessToken class that provides access to
-  the registered claims found in AccessToken 
-  and public/private claims added by Cognito.
-* **CognitoIdToken** \
-  An extension of the IdToken class that provides access to
-  the registered claims found in IdToken 
-  and public/private claims added by Cognito.
 
 ## Install
 ```
@@ -52,8 +56,8 @@ $ npm install @xeedware/cognito-jwt
 
 ### Without Token Verification
 
-Simply create an instance of CognitoAccessToken and/or
-CognitoAccessToken with an access or id jwt string respectively
+Simply create an instance of `CognitoAccessToken` and/or
+`CognitoAccessToken` with an Access JWT or ID JWT string respectively
 to access token claims as instance properties.
 
 Typescript:
@@ -128,9 +132,9 @@ Once converted to PEM format, is passed as the second argument to the CognitoIdT
     console.log(e);
   }
   ```
-On failed verification, an Error will be thrown.
+On failed verification, an `Error` will be thrown.
 
-### Options
+### Constructor Options
 
 Class constructors have an optional 3rd parameter: `options: VerifyOptions`.
 
@@ -180,13 +184,22 @@ There are three types of claims:
   Custom claims created to be shared between parties that are neither
   _registered_ or _public_ claims.
   
+You can use the `getPropertyValue(propertyName: string)` method of
+any of the classes. For example:
+```
+const claimValue = myCognitoAccessToken.getPropertyValue('aud');
+```
+or use the getters described below (preferred).
+  
 ### AccessToken
 
-The AccessToken contains registered claims as specified by the IETF
+The `AccessToken` contains registered claims as specified by the IETF
 for an access token: \
 https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32
 
-Note claims are optional, therefore returned value may be `undefined`.
+Obtain its value from the `AccessToken` class getter of the same name.\
+For example `myAccessToken.aud` for `aud`.\
+Since all `AccessToken` claims are optional, the returned value may be `undefined`.
 
 Claims are:
 * **aud** \
@@ -209,8 +222,12 @@ Claims are:
   Subject: A GUID that identifies the principle who is the subject of the JWT.
 
 ### CognitoAccessToken
-The CognitoAccessToken extends AccessToken containing public and private
-claims added to the registered claims available in the AccessToken.
+The `CognitoAccessToken` extends `AccessToken` containing public and private
+claims added to the registered claims available in the `AccessToken`.
+
+Obtain its value from the `CognitoAccessToken` class getter of the same name.\
+For example `myCognitoAccessToken.auth_time` for `auth_time`.\
+Since all `CognitoAccessToken` claims are optional, the returned value may be `undefined`.
 
 Added claims are:
 * **auth_time** \
@@ -240,11 +257,13 @@ Added claims are:
 
 
 ### IdToken
-The IdToken contains registered claims as specified by Open ID Connect
+The `IdToken` contains registered claims as specified by Open ID Connect
 for an id token: \
 http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
 
-Note claims are optional, therefore returned value may be `undefined`.
+Obtain its value from the `IdToken` class getter of the same name.\
+For example `myIdToken.address` for `address`.\
+Since all `IdToken` claims are optional, the returned value may be `undefined`.
 
 The claims are (descriptions from Open ID Connect specification):
 * **address** \
@@ -340,9 +359,12 @@ The claims are (descriptions from Open ID Connect specification):
   For example, Europe/Paris or America/Los_Angeles.
 
 ### CognitoIdToken
-The CognitoIdToken extends IdToken containing public and private
-claims added to the registered claims available in the AccessToken.
-Note that some of the same claims can be found in an AccessToken.
+The `CognitoIdToken` extends `IdToken` containing public and private
+claims added to the registered claims available in the `IdToken`.
+
+Obtain its value from the `CognitoIdToken` class getter of the same name.\
+For example `myCognitoIdToken.auth_time` for `auth_time`.\
+Since all `CognitoIdToken` claims are optional, the returned value may be `undefined`.
 
 Added claims are:
 * **aud** \

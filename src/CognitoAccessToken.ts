@@ -108,8 +108,20 @@ export class CognitoAccessToken extends AccessToken {
 
     /**
      * Token Use: 'access' or 'id'.
+     *
+     * @deprecated since version 1.2.0.
+     *  Will be deleted in version 2.0.0.
+     *  Use token_use instead.
+     *
      */
     get tokenUse(): string {
+        return this.getCognitoAccessTokenPayload().token_use;
+    }
+
+    /**
+     * Token Use: 'access' or 'id'.
+     */
+    get token_use(): string {
         return this.getCognitoAccessTokenPayload().token_use;
     }
 

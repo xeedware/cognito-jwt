@@ -83,6 +83,8 @@ describe('CognitoIdToken', () => {
                 expect(JSON.stringify(iut.getCognitoIdTokenPayload())).equal(JSON.stringify(expectedCognitoIdTokenPayload));
                 expect(iut.getPropertyValue('sub')).equal(expectedCognitoIdTokenPayload.sub);
                 expect(iut.getPropertyValue('bogus')).to.be.undefined;
+                // Deprecated methods
+                expect(iut.tokenUse).equal(expectedCognitoIdTokenPayload.token_use);
                 // CognitoIdToken added attributes
                 expect(iut.aud).equal(expectedCognitoIdTokenPayload.aud);
                 expect(iut.auth_time).equal(expectedCognitoIdTokenPayload.auth_time);
@@ -91,7 +93,7 @@ describe('CognitoIdToken', () => {
                 expect(iut.iss).equal(expectedCognitoIdTokenPayload.iss);
                 expect(iut.iat).equal(expectedCognitoIdTokenPayload.iat);
                 expect(iut.scope).equal(expectedCognitoIdTokenPayload.scope);
-                expect(iut.tokenUse).equal(expectedCognitoIdTokenPayload.token_use);
+                expect(iut.token_use).equal(expectedCognitoIdTokenPayload.token_use);
                 // IETF attributes
                 expect(iut.getToken()).equal(jwtString);
                 expect(iut.address).equal(expectedCognitoIdTokenPayload.address);
@@ -149,6 +151,8 @@ describe('CognitoIdToken', () => {
                     expect(JSON.stringify(iut.getCognitoIdTokenPayload())).equal(JSON.stringify(expectedCognitoIdTokenPayload));
                     expect(iut.getPropertyValue('sub')).equal(expectedCognitoIdTokenPayload.sub);
                     expect(iut.getPropertyValue('bogus')).to.be.undefined;
+                    // Deprecated methods
+                    expect(iut.tokenUse).equal(expectedCognitoIdTokenPayload.token_use);
                     // CognitoIdToken added attributes
                     expect(iut.aud).equal(expectedCognitoIdTokenPayload.aud);
                     expect(iut.auth_time).equal(expectedCognitoIdTokenPayload.auth_time);
@@ -157,7 +161,7 @@ describe('CognitoIdToken', () => {
                     expect(iut.iss).equal(expectedCognitoIdTokenPayload.iss);
                     expect(iut.iat).equal(expectedCognitoIdTokenPayload.iat);
                     expect(iut.scope).equal(expectedCognitoIdTokenPayload.scope);
-                    expect(iut.tokenUse).equal(expectedCognitoIdTokenPayload.token_use);
+                    expect(iut.token_use).equal(expectedCognitoIdTokenPayload.token_use);
                     // IETF attributes
                     expect(iut.getToken()).equal(jwtString);
                     expect(iut.address).equal(expectedCognitoIdTokenPayload.address);
@@ -223,6 +227,8 @@ describe('CognitoIdToken', () => {
                 expect(JSON.stringify(iut.getCognitoIdTokenPayload())).equal(JSON.stringify(expectedCognitoIdTokenPayload));
                 expect(iut.getPropertyValue('sub')).equal(expectedCognitoIdTokenPayload.sub);
                 expect(iut.getPropertyValue('bogus')).to.be.undefined;
+                // Deprecated methods
+                expect(iut.tokenUse).equal(expectedCognitoIdTokenPayload.token_use);
                 // CognitoIdToken added attributes
                 expect(iut.aud).equal(expectedCognitoIdTokenPayload.aud);
                 expect(iut.auth_time).equal(expectedCognitoIdTokenPayload.auth_time);
@@ -234,7 +240,7 @@ describe('CognitoIdToken', () => {
                 expect(iut.iss).equal(expectedCognitoIdTokenPayload.iss);
                 expect(iut.iat).equal(expectedCognitoIdTokenPayload.iat);
                 expect(iut.scope).equal(expectedCognitoIdTokenPayload.scope);
-                expect(iut.tokenUse).equal(expectedCognitoIdTokenPayload.token_use);
+                expect(iut.token_use).equal(expectedCognitoIdTokenPayload.token_use);
                 // IETF attributes
                 expect(iut.getToken()).equal(jwtString);
                 expect(iut.address).equal(expectedCognitoIdTokenPayload.address);
@@ -302,7 +308,7 @@ describe('CognitoIdToken', () => {
                     expect(iut.iss).equal(expectedCognitoIdTokenPayload.iss);
                     expect(iut.iat).equal(expectedCognitoIdTokenPayload.iat);
                     expect(iut.scope).equal(expectedCognitoIdTokenPayload.scope);
-                    expect(iut.tokenUse).equal(expectedCognitoIdTokenPayload.token_use);
+                    expect(iut.token_use).equal(expectedCognitoIdTokenPayload.token_use);
                     // IETF attributes
                     expect(iut.getToken()).equal(jwtString);
                     expect(iut.address).equal(expectedCognitoIdTokenPayload.address);

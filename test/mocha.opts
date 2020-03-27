@@ -1,3 +1,0 @@
---timeout 15s
---compilers ts-node/register
-test/specs/**/*.spec.ts
