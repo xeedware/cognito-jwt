@@ -15,7 +15,7 @@ token claims:
 * **`AccessToken`** \
   Provides access to registered claims as specified by the IETF
   for an access token: \
-  https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32
+  https://tools.ietf.org/html/rfc7519#section-4
 * **`IdToken`** \
   Provides access to registered claims as specified by Open ID Connect
   for an id token: \
@@ -195,7 +195,7 @@ or use the getters described below (preferred).
 
 The `AccessToken` contains registered claims as specified by the IETF
 for an access token: \
-https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32
+https://tools.ietf.org/html/rfc7519#section-4
 
 Obtain its value from the `AccessToken` class getter of the same name.\
 For example `myAccessToken.aud` for `aud`.\
@@ -397,7 +397,6 @@ Added claims are:
 
 
 # References
-* [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32)
 * [RFC7519 JSON Web Token (JWT)](https://tools.ietf.org/html/rfc7519)
 * [JWT Introduction](https://jwt.io/introduction/)
 
